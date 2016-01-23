@@ -274,12 +274,12 @@ do {
 echo $subversion
 
 #detect if it is english msi installer
-installers=$(wget -qO- $subversion | sed "s/\d034/\n/g" | grep "^ftp" | grep "AdbeRdr.*_en_US\.msi" | sed "s/ftp:\/\/ftp\.adobe\.com:21/http:\/\/ardownload\.adobe\.com/g" | sed '$alast line')
+installers=$(wget -qO- $subversion | sed "s/\d034/\n/g" | grep "^ftp" | grep "AcroRdr.*_en_US\.msi" | sed "s/ftp:\/\/ftp\.adobe\.com:21/http:\/\/ardownload\.adobe\.com/g" | sed '$alast line')
 
 printf %s "$installers" | while IFS= read -r msi
 do {
 
-echo $msi | grep "AdbeRdr.*_en_US\.msi"
+echo $msi | grep "AcroRdr.*_en_US\.msi"
 if [ $? -eq 0 ]
 then
 
