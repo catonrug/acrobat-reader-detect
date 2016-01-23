@@ -254,7 +254,6 @@ fi
 
 versions2check=$(cat <<EOF
 AcrobatDC
-Acrobat2015
 extra line
 EOF
 )
