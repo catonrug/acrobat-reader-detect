@@ -191,7 +191,7 @@ if [ ! -f "/home/pi/client_secrets.json" ]
 			else
 				#list all python installed modules
 				#check if google-api-python-client is really installed
-				pip freeze | grep "google-api-python-client" > /dev/null
+				/usr/local/bin/pip freeze | grep "google-api-python-client" > /dev/null
 				if [ $? -ne 0 ]
 					then
 						echo google-api-python-client python module not installed. Please run:
@@ -199,7 +199,7 @@ if [ ! -f "/home/pi/client_secrets.json" ]
 						return
 				fi
 				#chech again if all necesary modules are installed to work with google uploder then download upload script:
-				pip freeze | grep "google-api-python-client" > /dev/null
+				/usr/local/bin/pip freeze | grep "google-api-python-client" > /dev/null
 				if [ $? -eq 0 ]
 					then
 						#if every necessary software and module is installed then download uploader script and sample config file
@@ -253,7 +253,8 @@ fi
 
 
 versions2check=$(cat <<EOF
-AcrobatDC
+11.x
+10.x
 extra line
 EOF
 )
@@ -272,13 +273,14 @@ do {
 #get all english files in patch direcotry
 echo $subversion
 
-#detect if it is english msi installer
-installers=$(wget -qO- $subversion | sed "s/\d034/\n/g" | grep "^ftp" | grep "AcroRdr.*_en_US\.msi" | sed "s/ftp:\/\/ftp\.adobe\.com:21/http:\/\/ardownload\.adobe\.com/g" | sed '$alast line')
+
+#detect if it is msi installer
+installers=$(wget -qO- `echo $subversion`en_US/ | sed "s/\d034/\n/g" | grep "^ftp" | grep "AdbeRdr.*msi" | sed "s/ftp:\/\/ftp\.adobe\.com:21/http:\/\/ardownload\.adobe\.com/g" | sed '$alast line')
 
 printf %s "$installers" | while IFS= read -r msi
 do {
 
-echo $msi | grep "AcroRdr.*_en_US\.msi"
+echo $msi | grep "AdbeRdr.*msi"
 if [ $? -eq 0 ]
 then
 
@@ -323,12 +325,12 @@ fi
 fi
 } done
 
-patches=$(wget -qO- $subversion | sed "s/\d034/\n/g" | grep "^ftp" | grep "^.*\.msp" | grep -v "_" | sed "s/ftp:\/\/ftp\.adobe\.com:21/http:\/\/ardownload\.adobe\.com/g" | sed '$alast line')
+patches=$(wget -qO- `echo $subversion`misc/ | sed "s/\d034/\n/g" | grep "^ftp" | grep "^.*msp" | grep -v "_" | sed "s/ftp:\/\/ftp\.adobe\.com:21/http:\/\/ardownload\.adobe\.com/g" | sed '$alast line')
 
 printf %s "$patches" | while IFS= read -r msp
 do {
 
-echo $msp | grep "^.*\.msp"
+echo $msp | grep "^.*msp"
 if [ $? -eq 0 ]
 then
 
